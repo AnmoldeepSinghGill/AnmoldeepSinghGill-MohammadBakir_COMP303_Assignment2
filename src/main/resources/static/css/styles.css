@@ -1,0 +1,19 @@
+.card-container {
+  border-radius: 5px;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 50px;
+  padding: 22px;
+  background-color: #f1f1f1;
+  box-shadow: 0 4px 8px 0 #00000033;
+  /* transition for loading the style after 0.3 sec for ease in effect*/
+  /* transition: 0.3s; */
+}
+
+.card-container:hover {
+  box-shadow: 0 8px 16px 0 #00000033;
+}
+
+.row-padding {
+  margin-top: 20px;
+}
