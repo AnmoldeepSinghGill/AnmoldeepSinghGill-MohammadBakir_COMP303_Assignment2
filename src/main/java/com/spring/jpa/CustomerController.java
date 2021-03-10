@@ -22,8 +22,6 @@ public class CustomerController {
 	@Autowired
     private CustomerRepository customerRepository;
 	
-	@Autowired
-    private HotelRepository hotelRepository;
 	
 	@RequestMapping("/index")
 	public String home()
@@ -38,7 +36,7 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)  
-	public @ResponseBody ModelAndView register(@RequestParam("email") String email,
+	public String register(@RequestParam("email") String email,
             @RequestParam("password") String password,
 			@RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
@@ -53,32 +51,29 @@ public class CustomerController {
 				address, city, state, postalCode, country);
 	    customerRepository.save(customer);
 	    
-		ModelAndView index = new ModelAndView("index");
-		return index;
+//		ModelAndView index = new ModelAndView("index");
+		return "redirect:/reservation";
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)  
-	public ModelAndView register(@RequestParam("email") String email,
+	public String signIn(@RequestParam("email") String email,
             @RequestParam("password") String password, HttpServletRequest request)
 	{
 	    Customer customer = customerRepository.findByEmail(email);
 	   
 	    if (customer != null) {
 	    	if (customer.getPassword().equals(password)) {
-	    		request.getSession().setAttribute("customer", customer);;
-	    		ModelAndView reservatioPage = new ModelAndView("reservation_page");
-	    		
-	    		List<Hotel> rooms = hotelRepository.findAll();
-	    		
-	    		reservatioPage.addObject("rooms", rooms);
-	    		return reservatioPage;
+	    		request.getSession().setAttribute("customer", customer);
+	    	
+	    		return "redirect:/reservation";
 	    	} else {
-	    		return handleSignInErrors("Incorrect Username/password");
+	    		handleSignInErrors("Incorrect Username/password");
 	    	}
 	    } else {
-    		return handleSignInErrors("Incorrect Username/password");
+    		handleSignInErrors("Incorrect Username/password");
 	    }
 	    
+		return "redirect:/";    
 	}
 	
 	// for handling errors regarding 
