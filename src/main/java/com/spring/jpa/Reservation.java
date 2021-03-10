@@ -1,9 +1,15 @@
 package com.spring.jpa;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /*
  * Submitted By: Anmoldeep Singh Gill
@@ -12,14 +18,18 @@ import javax.persistence.Table;
 
 //Customer entity class - Model class
 @Entity
+@EnableAutoConfiguration
 @Table(name="reservation")
 public class Reservation {
 	
 	@Id
+	@GeneratedValue
 	@Column(name="reservationid")
 	private int reservationId;
+	
 	@Column(name="customerid")
 	private int customerId;
+	
 	@Column(name="roomid")
 	private int roomId;
 	@Column(name="totalnights")
