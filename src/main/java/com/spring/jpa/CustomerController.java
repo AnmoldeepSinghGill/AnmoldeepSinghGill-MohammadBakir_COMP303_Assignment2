@@ -1,6 +1,7 @@
 package com.spring.jpa;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -63,7 +64,8 @@ public class CustomerController {
 	   
 	    if (customer != null) {
 	    	if (customer.getPassword().equals(password)) {
-	    		request.getSession().setAttribute("customer", customer);
+	    		request.getSession().setAttribute("customerId", customer.getCustId());
+	    		request.getSession().setAttribute("customerEmail", customer.getEmail());
 	    	
 	    		return "redirect:/reservation";
 	    	} else {
@@ -76,6 +78,43 @@ public class CustomerController {
 		return "redirect:/";    
 	}
 	
+	@RequestMapping(value="/profile",method = RequestMethod.GET)  
+	public String viewProfile(HttpServletRequest request, Model model)
+	{
+		if (request.getSession().getAttribute("customerEmail") != null) {
+			String customerEmail = (String) request.getSession().getAttribute("customerEmail");
+		    Customer customer = customerRepository.findByEmail(customerEmail);
+		    
+		    if (customer != null) {
+//		    	ModelAndView profile = new ModelAndView("profile_page");
+//		    	profile.addObject("email", customer.getEmail());
+//		    	profile.addObject("firstName", customer.getFirstName());
+//		    	profile.addObject("lastName", customer.getLastName());
+//		    	profile.addObject("phoneNumber", customer.getPhoneNumber());
+//		    	profile.addObject("address", customer.getAddress());
+//		    	profile.addObject("city", customer.getCity());
+//		    	profile.addObject("postalCode", customer.getPostalCode());
+//		    	profile.addObject("country", customer.getCountry());
+		    	
+		    	model.addAttribute("email", customer.getEmail());
+		    	model.addAttribute("firstName", customer.getFirstName());
+		    	model.addAttribute("lastName", customer.getLastName());
+		    	model.addAttribute("phoneNumber", customer.getPhoneNumber());
+		    	model.addAttribute("address", customer.getAddress());
+		    	model.addAttribute("city", customer.getCity());
+		    	model.addAttribute("state", customer.getState());
+		    	model.addAttribute("postalCode", customer.getPostalCode());
+		    	model.addAttribute("country", customer.getCountry());
+		    	return "profile_page";
+		    } 
+		    else 
+		    {
+		    	return "redirect:/";  
+		    }
+		}
+		return "redirect:/";   
+	}
+	
 	// for handling errors regarding 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	  public ModelAndView conflict(HttpServletRequest req, Exception ex) {
@@ -83,7 +122,7 @@ public class CustomerController {
 		ModelAndView signUp = new ModelAndView("sign_up_page");
 		signUp.addObject("error", "Email already exits.");
 		return signUp;
-	}
+	} 
 	
 	private ModelAndView handleSignInErrors(String error) {
 		ModelAndView signIn = new ModelAndView("index");

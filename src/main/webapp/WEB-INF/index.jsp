@@ -22,7 +22,7 @@
 		<div class="row justify-content-center row-padding">
 			<h1>Sign In</h1>
 		</div>
-		<div th:if="${error != null}"><p class="alert alert-danger"  th:text="${error}">${error}</p></div>
+		<p class="alert alert-danger" th:if="${error != null}" th:text="${error}">${error}</p>
 		<form action="signIn" method="POST">
 			<div class="row row-padding">
 				<label for="email" class="col-3 col-form-label">Email:</label>

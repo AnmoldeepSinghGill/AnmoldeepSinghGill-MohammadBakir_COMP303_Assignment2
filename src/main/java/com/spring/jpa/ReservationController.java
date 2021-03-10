@@ -21,7 +21,7 @@ public class ReservationController {
 	public ModelAndView signIn(HttpServletRequest request)
 	{
 		List<Hotel> rooms = hotelRepository.findAll();
-		
+		System.out.println(request.getSession().getAttribute("customerId"));
 		ModelAndView reservationPage = new ModelAndView("reservation_page");
 		reservationPage.addObject("rooms", rooms);
 		return reservationPage;
