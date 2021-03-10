@@ -1,8 +1,12 @@
 package com.spring.jpa;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,8 +46,18 @@ public class CustomerController {
 	{
 		Customer customer = new Customer(email, password, firstName, lastName, phoneNumber,
 				address, city, state, postalCode, country);
-		customerRepository.save(customer);
+	    customerRepository.save(customer);
+	    
 		ModelAndView index = new ModelAndView("index");
 		return index;
 	}
+	
+	// for handling errors regarding 
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	  public ModelAndView conflict(HttpServletRequest req, Exception ex) {
+		System.out.println(ex);
+		ModelAndView signUp = new ModelAndView("sign_up_page");
+		signUp.addObject("error", "Email already exits.");
+		return signUp;
+	  }
 }

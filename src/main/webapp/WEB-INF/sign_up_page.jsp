@@ -16,6 +16,7 @@
 </head>
 <body>
 	<div class="card-container">
+	<p class="alert alert-danger" th:if="${error != null}" th:text="${error}">${error}</p>
 		<div class="row justify-content-center row-padding">
 			<h1>Sign Up</h1>
 		</div>

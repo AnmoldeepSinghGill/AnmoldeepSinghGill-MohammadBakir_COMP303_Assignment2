@@ -23,7 +23,7 @@ public class Customer {
 	@GeneratedValue
 	@Column(name="custid")
 	private int custId;
-	@Column(name="email")
+	@Column(name="email", unique=true)
 	private String email;
 	@Column(name="password")
 	private String password;
