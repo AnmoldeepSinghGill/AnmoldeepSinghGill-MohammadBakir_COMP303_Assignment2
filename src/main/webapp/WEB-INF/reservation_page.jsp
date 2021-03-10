@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -134,12 +134,28 @@
 					<div class="col-2"></div>
 				</div>
 				<c:forEach items="${ rooms }" var="room">
-					<div class="row">
-					<input type="radio" name="roomTypesAndPrice" id="mountainView"
-						class="form-check-input" value="100" required checked="checked" />
-					<label for="mountainView" class="form-check-label">${room.getPrice()}/Night
-						- ${ room.getRoomType() } ${ room.getPrice() }</label>
-						<img src="/img/HotelRooms/${ room.getRoomImage() }">
+					<!-- <div class="row">
+						<input type="radio" name="roomTypesAndPrice" id="mountainView"
+							class="form-check-input" value="100" required checked="checked" />
+						<label for="mountainView" class="form-check-label">${room.getPrice()}/Night
+							- ${ room.getRoomType() } ${ room.getPrice() }</label> <img
+							src="/img/HotelRooms/${ room.getRoomImage() }">
+					</div>-->
+					
+					<div class="card" style="width: 630px;">
+					<div class="row no-gutters">
+						<div class="col-sm-7">
+							<div class="card-body">
+								<h5 class="card-title">${ room.getRoomType() }</h5>
+								<p class="card-text">${room.getPrice()}/Night</p>
+								<a href="#" class="btn btn-primary">Book Room</a>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<img class="card-img" src="/img/HotelRooms/${ room.getRoomImage() }"
+								alt="Suresh Dasari Card">
+						</div>
+					</div>
 				</div>
 				</c:forEach>
 				<!-- <div class="row">

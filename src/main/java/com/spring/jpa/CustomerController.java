@@ -25,14 +25,16 @@ public class CustomerController {
 	
 	
 	@RequestMapping("/index")
-	public String home()
+	public String home(Model model)
 	{
+		model.addAttribute("error", null);
 		return "index";
 	}
 	
 	@RequestMapping("/signUp")
-	public String signUp()
+	public String signUp(Model model)
 	{
+		model.addAttribute("error", null);
 		return "sign_up_page";
 	}
 	

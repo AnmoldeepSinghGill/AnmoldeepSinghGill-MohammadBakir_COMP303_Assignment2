@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,9 @@
 </head>
 <body>
 	<div class="card-container">
-	<p class="alert alert-danger" th:if="${error != null}" th:text="${error}">${error}</p>
+		<c:if test="${error != null}">
+			<p class="alert alert-danger">${error}</p>
+		</c:if>
 		<div class="row justify-content-center row-padding">
 			<h1>Sign Up</h1>
 		</div>
@@ -35,8 +38,8 @@
 					<label>Password <span class="required-label">*</span></label>
 				</div>
 				<div class="col-8">
-					<input type="password" name="password"
-						class="form-control" required="required" />
+					<input type="password" name="password" class="form-control"
+						required="required" />
 				</div>
 			</div>
 			<div class="row row-padding">
@@ -110,7 +113,7 @@
 				</div>
 			</div>
 			<div class="row row-padding justify-content-center">
-			<button class="btn btn-success" type="submit">Sign Up</button>
+				<button class="btn btn-success" type="submit">Sign Up</button>
 			</div>
 		</form>
 	</div>

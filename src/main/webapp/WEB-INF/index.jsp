@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +19,14 @@
 </head>
 <body>
 	<div class="card-container">
-		
+		<c:if test="${error != null}">
+			<p class="alert alert-danger">${error}</p>
+		</c:if>
 		<div class="row justify-content-center row-padding">
 			<h1>Sign In</h1>
 		</div>
-		<p class="alert alert-danger" th:if="${error != null}" th:text="${error}">${error}</p>
+		<p class="alert alert-danger" th:if="${error != null}"
+			th:text="${error}">${error}</p>
 		<form action="signIn" method="POST">
 			<div class="row row-padding">
 				<label for="email" class="col-3 col-form-label">Email:</label>
