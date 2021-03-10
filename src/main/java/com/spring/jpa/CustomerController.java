@@ -1,5 +1,7 @@
 package com.spring.jpa;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class CustomerController {
 
 	@Autowired
     private CustomerRepository customerRepository;
+	
+	@Autowired
+    private HotelRepository hotelRepository;
 	
 	@RequestMapping("/index")
 	public String home()
@@ -52,6 +57,30 @@ public class CustomerController {
 		return index;
 	}
 	
+	@RequestMapping(value="/signIn",method = RequestMethod.POST)  
+	public ModelAndView register(@RequestParam("email") String email,
+            @RequestParam("password") String password, HttpServletRequest request)
+	{
+	    Customer customer = customerRepository.findByEmail(email);
+	   
+	    if (customer != null) {
+	    	if (customer.getPassword().equals(password)) {
+	    		request.getSession().setAttribute("customer", customer);;
+	    		ModelAndView reservatioPage = new ModelAndView("reservation_page");
+	    		
+	    		List<Hotel> rooms = hotelRepository.findAll();
+	    		
+	    		reservatioPage.addObject("rooms", rooms);
+	    		return reservatioPage;
+	    	} else {
+	    		return handleSignInErrors("Incorrect Username/password");
+	    	}
+	    } else {
+    		return handleSignInErrors("Incorrect Username/password");
+	    }
+	    
+	}
+	
 	// for handling errors regarding 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	  public ModelAndView conflict(HttpServletRequest req, Exception ex) {
@@ -59,5 +88,11 @@ public class CustomerController {
 		ModelAndView signUp = new ModelAndView("sign_up_page");
 		signUp.addObject("error", "Email already exits.");
 		return signUp;
-	  }
+	}
+	
+	private ModelAndView handleSignInErrors(String error) {
+		ModelAndView signIn = new ModelAndView("index");
+		signIn.addObject("error", error);
+		return signIn;
+	}
 }

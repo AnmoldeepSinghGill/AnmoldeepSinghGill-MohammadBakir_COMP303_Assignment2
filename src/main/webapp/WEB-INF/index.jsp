@@ -18,10 +18,12 @@
 </head>
 <body>
 	<div class="card-container">
+		
 		<div class="row justify-content-center row-padding">
 			<h1>Sign In</h1>
 		</div>
-		<form action="signin" method="POST">
+		<div th:if="${error != null}"><p class="alert alert-danger"  th:text="${error}">${error}</p></div>
+		<form action="signIn" method="POST">
 			<div class="row row-padding">
 				<label for="email" class="col-3 col-form-label">Email:</label>
 				<div class="col-sm-9">
