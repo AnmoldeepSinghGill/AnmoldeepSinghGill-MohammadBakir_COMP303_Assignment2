@@ -20,7 +20,7 @@
 		<div class="row justify-content-center row-padding">
 			<h1>Profile</h1>
 		</div>
-		<form action="signUp" method="POST">
+		<form action="profile" method="POST">
 			<div class="row row-padding">
 				<div class="col-4 text-right label-aling label-bold">
 					<label>Email <span class="required-label">*</span></label>
@@ -101,7 +101,7 @@
 				</div>
 			</div>
 			<div class="row row-padding justify-content-center">
-			<button class="btn btn-success" type="submit">Sign Up</button>
+			<button class="btn btn-success" type="submit">Update Profile</button>
 			</div>
 		</form>
 	</div>

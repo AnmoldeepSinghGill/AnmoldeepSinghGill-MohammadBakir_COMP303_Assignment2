@@ -53,7 +53,7 @@ public class CustomerController {
 	    customerRepository.save(customer);
 	    
 //		ModelAndView index = new ModelAndView("index");
-		return "redirect:/reservation";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)  
@@ -72,7 +72,7 @@ public class CustomerController {
 	    		handleSignInErrors("Incorrect Username/password");
 	    	}
 	    } else {
-    		handleSignInErrors("Incorrect Username/password");
+    		handleSignInErrors("Account does not exists.");
 	    }
 	    
 		return "redirect:/";    
@@ -86,15 +86,6 @@ public class CustomerController {
 		    Customer customer = customerRepository.findByEmail(customerEmail);
 		    
 		    if (customer != null) {
-//		    	ModelAndView profile = new ModelAndView("profile_page");
-//		    	profile.addObject("email", customer.getEmail());
-//		    	profile.addObject("firstName", customer.getFirstName());
-//		    	profile.addObject("lastName", customer.getLastName());
-//		    	profile.addObject("phoneNumber", customer.getPhoneNumber());
-//		    	profile.addObject("address", customer.getAddress());
-//		    	profile.addObject("city", customer.getCity());
-//		    	profile.addObject("postalCode", customer.getPostalCode());
-//		    	profile.addObject("country", customer.getCountry());
 		    	
 		    	model.addAttribute("email", customer.getEmail());
 		    	model.addAttribute("firstName", customer.getFirstName());
@@ -106,6 +97,36 @@ public class CustomerController {
 		    	model.addAttribute("postalCode", customer.getPostalCode());
 		    	model.addAttribute("country", customer.getCountry());
 		    	return "profile_page";
+		    } 
+		    else 
+		    {
+		    	return "redirect:/";  
+		    }
+		}
+		return "redirect:/";   
+	}
+	
+	@RequestMapping(value="/profile",method = RequestMethod.POST)  
+	public String updateProfile(HttpServletRequest request,
+			@RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("address") String address,
+            @RequestParam("city") String city,
+            @RequestParam("state") String state,
+            @RequestParam("postalCode") String postalCode,
+            @RequestParam("country") String country)
+	{
+		if (request.getSession().getAttribute("customerEmail") != null) {
+			String customerEmail = (String) request.getSession().getAttribute("customerEmail");
+		    Customer customer = customerRepository.findByEmail(customerEmail);
+		    
+		    if (customer != null) {
+		    	
+		    	Customer updatedCustomer = new Customer(customer.getCustId(),customer.getEmail(), customer.getPassword(), firstName, lastName, phoneNumber,
+						address, city, state, postalCode, country);
+		    	customerRepository.save(updatedCustomer);
+		    	return "redirect:/profile";
 		    } 
 		    else 
 		    {
@@ -127,6 +148,7 @@ public class CustomerController {
 	private ModelAndView handleSignInErrors(String error) {
 		ModelAndView signIn = new ModelAndView("index");
 		signIn.addObject("error", error);
+		System.out.println(error);
 		return signIn;
 	}
 }

@@ -63,6 +63,23 @@ public class Customer {
 		this.country = country;
 		this.state = state;
 	}
+	
+	// constructor for updating customer
+	public Customer(int custId, String email, String password, String firstName, String lastName, String phoneNumber,
+			String address, String city, String state, String postalCode, String country) {
+		super();
+		this.custId = custId;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.postalCode = postalCode;
+		this.country = country;
+	}
 
 	// getters and setters for the class
 	public int getCustId() {
