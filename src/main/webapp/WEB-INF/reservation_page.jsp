@@ -115,7 +115,7 @@
 						<h2>Accommodations</h2>
 					</div>
 				</div>
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-2"></div>
 					<div class="col-4 label-bold">Arrival - Date</div>
 					<div class="col-4 label-bold">Departure - Date</div>
@@ -132,7 +132,7 @@
 							required />
 					</div>
 					<div class="col-2"></div>
-				</div>
+				</div>-->
 				<c:forEach items="${ rooms }" var="room">
 					<!-- <div class="row">
 						<input type="radio" name="roomTypesAndPrice" id="mountainView"
@@ -141,22 +141,39 @@
 							- ${ room.getRoomType() } ${ room.getPrice() }</label> <img
 							src="/img/HotelRooms/${ room.getRoomImage() }">
 					</div>-->
-					
+
 					<div class="card" style="width: 630px;">
-					<div class="row no-gutters">
-						<div class="col-sm-7">
-							<div class="card-body">
-								<h5 class="card-title">${ room.getRoomType() }</h5>
-								<p class="card-text">${room.getPrice()}/Night</p>
-								<a href="#" class="btn btn-primary">Book Room</a>
+						<div class="row no-gutters">
+							<div class="col-sm-7">
+								<div class="card-body">
+									<h5 class="card-title">${ room.getRoomType() }</h5>
+									<p class="card-text">${room.getPrice()}/Night</p>
+									<div class="row" style="margin-top: 25px;">
+										<div class="col-4 text-left label-bold">Number of Adults</div>
+										<div class="col-8 text-left label-bold">Number of Kids
+											(If there are any)</div>
+									</div>
+									<div class="row">
+										<div class="col-3">
+											<input type="number" name="numberOfAdults"
+												class="form-control" required />
+										</div>
+										<div class="col-1"></div>
+										<div class="col-3">
+											<input type="number" name="numberOfKids" class="form-control" />
+										</div>
+										<div class="col-5"></div>
+									</div>
+									<a href="#" class="btn btn-primary">Book Room</a>
+								</div>
+							</div>
+							<div class="col-sm-5">
+								<img class="card-img"
+									src="/img/HotelRooms/${ room.getRoomImage() }"
+									alt="Suresh Dasari Card">
 							</div>
 						</div>
-						<div class="col-sm-5">
-							<img class="card-img" src="/img/HotelRooms/${ room.getRoomImage() }"
-								alt="Suresh Dasari Card">
-						</div>
 					</div>
-				</div>
 				</c:forEach>
 				<!-- <div class="row">
 					<div class="col-4 label-aling">
@@ -174,22 +191,6 @@
 						</select>
 					</div>
 				</div>-->
-				<div class="row" style="margin-top: 25px;">
-					<div class="col-4 text-left label-bold">Number of Adults</div>
-					<div class="col-8 text-left label-bold">Number of Kids (If
-						there are any)</div>
-				</div>
-				<div class="row">
-					<div class="col-3">
-						<input type="number" name="numberOfAdults" class="form-control"
-							required />
-					</div>
-					<div class="col-1"></div>
-					<div class="col-3">
-						<input type="number" name="numberOfKids" class="form-control" />
-					</div>
-					<div class="col-5"></div>
-				</div>
 				<div class="row">
 					<div class="col-6 text-left">
 						<h3>Payment method</h3>
@@ -205,16 +206,8 @@
 				<div class="row">
 					<div class="col-4 text-left" style="margin-left: 20px;">
 						<input type="radio" name="paymentMethod" id="creditCard"
-							class="form-check-input" value="creditcard" required /> <label
+							class="form-check-input" value="creditCard" required /> <label
 							for="creditCard" class="form-check-label">Credit Card</label>
-					</div>
-					<div class="col-8"></div>
-				</div>
-				<div class="row">
-					<div class="col-4 text-left" style="margin-left: 20px;">
-						<input type="radio" name="paymentMethod" id="paypal"
-							class="form-check-input" value="paypal" /> <label for="paypal"
-							class="form-check-label">Paypal</label>
 					</div>
 					<div class="col-8"></div>
 				</div>
