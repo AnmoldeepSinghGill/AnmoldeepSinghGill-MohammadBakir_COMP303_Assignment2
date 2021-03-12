@@ -46,6 +46,12 @@ public class Reservation {
 	@Column(name="roomid")
 	private int roomId;
 	
+	@Column(name="arrivaldate")
+	private String arrivalDate;
+	
+	@Column(name="departuredate")
+	private String departureDate;
+	
 	@Column(name="totalnights")
 	private int totalNights;
 	@Column(name="totalguests")
@@ -62,12 +68,15 @@ public class Reservation {
 		
 	}
 
-	public Reservation(int customerId, int roomId, int totalNights, int totalGuests) {
+	public Reservation(int customerId, int roomId, int totalNights, int totalGuests,
+			String arrivalDate, String departureDate) {
 		super();
 		this.customerId = customerId;
 		this.roomId = roomId;
 		this.totalNights = totalNights;
 		this.totalGuests = totalGuests;
+		this.arrivalDate = arrivalDate;
+		this.departureDate = departureDate;
 	}
 
 	// getters and setters
@@ -126,6 +135,24 @@ public class Reservation {
 
 	public void setRoom(Hotel room) {
 		this.room = room;
+	}
+	
+	
+
+	public String getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(String arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public String getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(String departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public double calculateTotalAmount(double price) {

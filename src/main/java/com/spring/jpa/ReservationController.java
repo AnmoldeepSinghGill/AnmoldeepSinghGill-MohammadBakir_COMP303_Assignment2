@@ -31,8 +31,13 @@ public class ReservationController {
 			@RequestParam("numberOfGuests") int numberOfGuests) {
 		if (request.getSession().getAttribute("customerId") != null) {
 			int customerId = (int) request.getSession().getAttribute("customerId");
-
-			Reservation reservation = new Reservation(customerId, roomId, numberOfNights, numberOfGuests);
+			
+			// getting arrival and departure date from the session
+			String arrivalDate = (String) request.getSession().getAttribute("arrivalDate");
+			String departureDate = (String) request.getSession().getAttribute("departureDate");
+			
+			Reservation reservation = new Reservation(customerId, roomId, numberOfNights, numberOfGuests, 
+					arrivalDate, departureDate);
 
 			// calculating total amount
 			double totalAmount = reservation.calculateTotalAmount(price);
@@ -67,12 +72,13 @@ public class ReservationController {
 				if (optionalRoom.isPresent()) {
 					Hotel room = optionalRoom.get();
 					reservation.setRoom(room);
+					List<Hotel> rooms = hotelRepository.findAll();
+					System.out.println(request.getSession().getAttribute("customerId"));
+					model.addAttribute("rooms", rooms);
+					model.addAttribute("reservations", reservations);
+					return "reservation_list";	
 				}
 			}
-			
-			System.out.println(request.getSession().getAttribute("customerId"));
-			model.addAttribute("reservations", reservations);
-			return "reservation_list";	
 		}  
 		
 		model.addAttribute("error", "Please Sign in to book reservations");
@@ -84,6 +90,51 @@ public class ReservationController {
 		System.out.println(id);
 		reservationRepository.deleteById(id);
 		return "redirect:/showReservations";
+	}
+	
+	@RequestMapping(value = "/updateReservation", method = RequestMethod.POST)
+	public String updateReservation(@RequestParam("id") int id) {
+		System.out.println(id);
+		reservationRepository.deleteById(id);
+		return "redirect:/showReservations";
+	}
+	
+	@RequestMapping(value = "/editReservation", method = RequestMethod.POST)
+	public String editReservation(@RequestParam("id") int id, HttpServletRequest request, Model model) {
+		System.out.println(id);
+		if (request.getSession().getAttribute("customerId") != null) {
+			Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+			if (optionalReservation.isPresent()) {
+				Reservation reservation = optionalReservation.get();
+				List<Hotel> rooms = hotelRepository.findAll();
+				model.addAttribute("rooms", rooms);
+				model.addAttribute("reservation", reservation);
+				return "edit_reservation_page";
+			} else {
+				return "redirect:/showReservations";
+			}
+		}
+		
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/editReservation", method = RequestMethod.GET)
+	public String renderEditReservation(@RequestParam("id") int id, HttpServletRequest request, Model model) {
+		System.out.println(id);
+		if (request.getSession().getAttribute("customerId") != null) {
+			Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+			if (optionalReservation.isPresent()) {
+				Reservation reservation = optionalReservation.get();
+				List<Hotel> rooms = hotelRepository.findAll();
+				model.addAttribute("rooms", rooms);
+				model.addAttribute("reservation", reservation);
+				return "edit_reservation_page";
+			} else {
+				return "redirect:/showReservations";
+			}
+		}
+		
+		return "redirect:/";
 	}
 
 	// for handling errors regarding database update or save in reservation controller

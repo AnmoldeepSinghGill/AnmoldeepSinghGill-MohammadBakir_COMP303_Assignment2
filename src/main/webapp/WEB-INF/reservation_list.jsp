@@ -16,33 +16,61 @@
 </head>
 <body>
 	<div class="card-container"
-		style="max-width: 800px; margin-bottom: 50px;">
+		style="max-width: 1000px; margin-bottom: 50px;">
 		<div class="row justify-content-center">
 			<h3>Your Reservations</h3>
 		</div>
-		<table class="table">
+		<table class="table-responsive">
 			<thead>
 				<tr>
-					<th>#</th>
+					<th>Reservation Id</th>
 					<th>Room Type</th>
+					<th>Arrival Date</th>
+					<th>Departure Date</th>
 					<th>Total Nights</th>
 					<th>Total Guests</th>
 					<th>Total Amount</th>
-					<th>Actions</th>
+					<th colspan="2">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${ reservations }" var="reservation"  varStatus="loop">
+				<c:forEach items="${ reservations }" var="reservation"
+					varStatus="loop">
 					<tr>
-						<td>${ loop.index }</td>
-						<td>${ reservation.getRoom().getRoomType() }</td>
-						<td>${ reservation.totalNights }</td>
-						<td>${ reservation.totalGuests }</td>
-						<td>${ reservation.totalAmount }</td>
+						<form
+							action="editReservation?id=${ reservation.getReservationId() }"
+							method="POST">
+						<td>${ reservation.getReservationId() }</td>
+						<td><select class="form-select">
+								<c:forEach items="${ rooms }" var="room">
+									<option value="${ room.getRoomId() }"
+										<c:if test="${reservation.getRoomId() == room.getRoomId()}">selected=selected</c:if>>
+										${ room.getRoomType() }</option>
+								</c:forEach>
+						</select></td>
+						<td><input type="date"
+							value="${ reservation.getArrivalDate() }" name="arrivalDate"
+							class="form-control" required /></td>
+						<td><input type="date"
+							value="${ reservation.getDepartureDate() }" name="arrivalDate"
+							class="form-control" required /></td>
+						<td><input type="number"
+							value="${ reservation.getTotalNights() }" name="totalNights"
+							class="form-control" required /></td>
+						<td><input type="number"
+							value="${ reservation.getTotalGuests() }" name="totalGuests"
+							class="form-control" required /></td>
+						<td>$${ reservation.getTotalAmount() }</td>
 						<td>
 							<button class="btn btn-success">Update</button>
-							<form action="deleteReservation?id=${ reservation.getReservationId() }" method="POST">
-							<button class="btn btn-danger" >Delete</button>
+
+						</td>
+						</form>
+						<td>
+							<form
+								action="deleteReservation?id=${ reservation.getReservationId() }"
+								method="POST">
+								<button class="btn btn-danger">Delete</button>
 							</form>
 						</td>
 					</tr>

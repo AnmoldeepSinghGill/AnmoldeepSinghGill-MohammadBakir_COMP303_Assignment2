@@ -69,7 +69,7 @@ public class CustomerController {
 	    		request.getSession().setAttribute("customerId", customer.getCustId());
 	    		request.getSession().setAttribute("customerEmail", customer.getEmail());
 	    	
-	    		return "redirect:/reservation";
+	    		return "redirect:/searchRooms";
 	    	} else {
 	    		handleSignInErrors("Incorrect Username/password");
 	    	}
