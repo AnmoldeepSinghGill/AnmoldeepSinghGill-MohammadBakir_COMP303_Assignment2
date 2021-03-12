@@ -3,12 +3,16 @@ package com.spring.jpa;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /*
@@ -27,15 +31,24 @@ public class Reservation {
 	@Column(name="reservationid")
 	private int reservationId;
 	
+	// configuring the foreign keys for customer id
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "customerid", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="customerid")
 	private int customerId;
 	
+	// configuring the foreign keys for room id
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "roomid", nullable = false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="roomid")
 	private int roomId;
+	
 	@Column(name="totalnights")
-	private double totalNights;
+	private int totalNights;
 	@Column(name="totalguests")
-	private double totalGuests;
+	private int totalGuests;
 	@Column(name="totalamount")
 	private double totalAmount;
 	
@@ -43,15 +56,12 @@ public class Reservation {
 		
 	}
 
-	public Reservation(int reservationId, int customerId, int roomId, double totalNights, double totalGuests,
-			double totalAmount) {
+	public Reservation(int customerId, int roomId, int totalNights, int totalGuests) {
 		super();
-		this.reservationId = reservationId;
 		this.customerId = customerId;
 		this.roomId = roomId;
 		this.totalNights = totalNights;
 		this.totalGuests = totalGuests;
-		this.totalAmount = totalAmount;
 	}
 
 	// getters and setters
@@ -83,7 +93,7 @@ public class Reservation {
 		return totalNights;
 	}
 
-	public void setTotalNights(double totalNights) {
+	public void setTotalNights(int totalNights) {
 		this.totalNights = totalNights;
 	}
 
@@ -91,7 +101,7 @@ public class Reservation {
 		return totalGuests;
 	}
 
-	public void setTotalGuests(double totalGuests) {
+	public void setTotalGuests(int totalGuests) {
 		this.totalGuests = totalGuests;
 	}
 
@@ -103,5 +113,7 @@ public class Reservation {
 		this.totalAmount = totalAmount;
 	}
 	
-	
+	public double calculateTotalAmount(double price) {
+		return price * Double.valueOf(this.totalNights);
+	}
 }

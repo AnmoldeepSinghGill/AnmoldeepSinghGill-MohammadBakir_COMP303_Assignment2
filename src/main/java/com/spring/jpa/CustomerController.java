@@ -138,7 +138,7 @@ public class CustomerController {
 		return "redirect:/";   
 	}
 	
-	// for handling errors regarding 
+	// for handling errors regarding database update or save in customer controller
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	  public ModelAndView conflict(HttpServletRequest req, Exception ex) {
 		System.out.println(ex);
