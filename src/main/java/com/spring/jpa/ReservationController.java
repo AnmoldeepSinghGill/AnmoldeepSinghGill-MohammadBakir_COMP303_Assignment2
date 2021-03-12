@@ -43,6 +43,26 @@ public class ReservationController {
 		model.addAttribute("error", "Please Sign in to book reservations");
 		return "redirect:/index";
 	}
+	
+	@RequestMapping(value = "/processPayment", method = RequestMethod.POST)
+	public String showPaymentSuccesfull() {
+		return "payment_successful";
+	}
+	
+	@RequestMapping(value = "/showReservations", method = RequestMethod.GET)
+	public String showAllCustomerReservations(HttpServletRequest request, Model model) {
+		if (request.getSession().getAttribute("customerId") != null) {
+			int customerId = (int) request.getSession().getAttribute("customerId");
+			List<Reservation> reservations = reservationRepository.findByCustomerId(customerId);
+			
+			System.out.println(request.getSession().getAttribute("customerId"));
+			model.addAttribute("reservations", reservations);
+			return "reservation_list";	
+		}  
+		
+		model.addAttribute("error", "Please Sign in to book reservations");
+		return "redirect:/index";	
+	}
 
 	// for handling errors regarding database update or save in reservation controller
 	@ExceptionHandler(DataIntegrityViolationException.class)

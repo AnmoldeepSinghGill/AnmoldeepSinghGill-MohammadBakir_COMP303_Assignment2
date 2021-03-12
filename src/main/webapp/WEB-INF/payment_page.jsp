@@ -18,7 +18,10 @@
 	<div class="card-container" style="max-width: 630px;">
 		<form action="processPayment" method="POST">
 			<div class="row justify-content-center">
-				<h3>Payment method</h3>
+				<h2>Payment method</h2>
+			</div>
+			<div class="row justify-content-center">
+				<h4>Total Amount to be paid: $${ totalAmount }</h4>
 			</div>
 			<div class="row">
 				<div class="col-4 text-left">
