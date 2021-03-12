@@ -1,6 +1,8 @@
 package com.spring.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +21,9 @@ public class ReservationController {
 
 	@Autowired
 	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
 	@RequestMapping(value = "/bookReservation", method = RequestMethod.POST)
 	public String saveReservation(HttpServletRequest request, Model model, @RequestParam("id") int roomId,
@@ -54,6 +59,16 @@ public class ReservationController {
 		if (request.getSession().getAttribute("customerId") != null) {
 			int customerId = (int) request.getSession().getAttribute("customerId");
 			List<Reservation> reservations = reservationRepository.findByCustomerId(customerId);
+//			List<Hotel> rooms = hotelRepository.findAll();
+//			Hotel[] roomBookedForReservation = new Hotel[reservations.size()];
+			for (Reservation reservation : reservations) {
+				int roomId = reservation.getRoomId();
+				Optional<Hotel> optionalRoom = hotelRepository.findById(roomId);
+				if (optionalRoom.isPresent()) {
+					Hotel room = optionalRoom.get();
+					reservation.setRoom(room);
+				}
+			}
 			
 			System.out.println(request.getSession().getAttribute("customerId"));
 			model.addAttribute("reservations", reservations);
@@ -62,6 +77,13 @@ public class ReservationController {
 		
 		model.addAttribute("error", "Please Sign in to book reservations");
 		return "redirect:/index";	
+	}
+	
+	@RequestMapping(value = "/deleteReservation", method = RequestMethod.POST)
+	public String deleteReservation(@RequestParam("id") int id) {
+		System.out.println(id);
+		reservationRepository.deleteById(id);
+		return "redirect:/showReservations";
 	}
 
 	// for handling errors regarding database update or save in reservation controller

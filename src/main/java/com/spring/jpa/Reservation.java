@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.annotation.Transient;
 
 /*
  * Submitted By: Anmoldeep Singh Gill
@@ -33,14 +34,14 @@ public class Reservation {
 	
 	// configuring the foreign keys for customer id
 //	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "customerid", nullable = false)
+//    @JoinColumn(name = "customer_id", nullable = false)
 //    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="customerid")
 	private int customerId;
 	
 	// configuring the foreign keys for room id
 //	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "roomid", nullable = false)
+//    @JoinColumn(name = "room_id", nullable = false)
 //    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="roomid")
 	private int roomId;
@@ -51,6 +52,11 @@ public class Reservation {
 	private int totalGuests;
 	@Column(name="totalamount")
 	private double totalAmount;
+	
+	// not mapped by the database but used for storing room data when fetching the list
+	// of reservations
+	@Transient
+	private transient Hotel room;
 	
 	public Reservation() {
 		
@@ -112,7 +118,16 @@ public class Reservation {
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
+		
 	
+	public Hotel getRoom() {
+		return room;
+	}
+
+	public void setRoom(Hotel room) {
+		this.room = room;
+	}
+
 	public double calculateTotalAmount(double price) {
 		return price * Double.valueOf(this.totalNights);
 	}
