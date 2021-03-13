@@ -2,8 +2,11 @@ package com.spring.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /*
  * Submitted By: Anmoldeep Singh Gill
@@ -12,10 +15,12 @@ import javax.persistence.Table;
 
 //Customer entity class - Model class
 @Entity
+@EnableAutoConfiguration
 @Table(name="hotel")
 public class Hotel {
 	
 	@Id
+	@GeneratedValue
 	@Column(name="roomid")
 	private int roomId;
 	@Column(name="roomtype")

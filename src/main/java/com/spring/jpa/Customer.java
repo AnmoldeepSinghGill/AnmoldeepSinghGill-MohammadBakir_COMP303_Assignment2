@@ -2,8 +2,11 @@ package com.spring.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /*
  * Submitted By: Anmoldeep Singh Gill
@@ -12,13 +15,15 @@ import javax.persistence.Table;
 
 //Customer entity class - Model class
 @Entity
+@EnableAutoConfiguration
 @Table(name="customer")
 public class Customer {
 
 	@Id
+	@GeneratedValue
 	@Column(name="custid")
 	private int custId;
-	@Column(name="email")
+	@Column(name="email", unique=true)
 	private String email;
 	@Column(name="password")
 	private String password;
@@ -30,8 +35,10 @@ public class Customer {
 	private String phoneNumber;
 	@Column(name="address")
 	private String address;
-	@Column(name="cist")
+	@Column(name="city")
 	private String city;
+	@Column(name="state")
+	private String state;
 	@Column(name="postalcode")
 	private String postalCode;
 	@Column(name="country")
@@ -42,8 +49,24 @@ public class Customer {
 	}
 
 	// constructor
+	public Customer(String email, String password, String firstName, String lastName, String phoneNumber,
+			String address, String city, String state,String postalCode, String country) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.city = city;
+		this.postalCode = postalCode;
+		this.country = country;
+		this.state = state;
+	}
+	
+	// constructor for updating customer
 	public Customer(int custId, String email, String password, String firstName, String lastName, String phoneNumber,
-			String address, String city, String postalCode, String country) {
+			String address, String city, String state, String postalCode, String country) {
 		super();
 		this.custId = custId;
 		this.email = email;
@@ -53,6 +76,7 @@ public class Customer {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.city = city;
+		this.state = state;
 		this.postalCode = postalCode;
 		this.country = country;
 	}
@@ -137,5 +161,14 @@ public class Customer {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 		
+	
 }
