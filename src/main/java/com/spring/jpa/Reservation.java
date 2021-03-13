@@ -1,5 +1,9 @@
 package com.spring.jpa;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,10 +51,10 @@ public class Reservation {
 	private int roomId;
 	
 	@Column(name="arrivaldate")
-	private String arrivalDate;
+	private Date arrivalDate;
 	
 	@Column(name="departuredate")
-	private String departureDate;
+	private Date departureDate;
 	
 	@Column(name="totalnights")
 	private int totalNights;
@@ -75,8 +79,46 @@ public class Reservation {
 		this.roomId = roomId;
 		this.totalNights = totalNights;
 		this.totalGuests = totalGuests;
-		this.arrivalDate = arrivalDate;
-		this.departureDate = departureDate;
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.arrivalDate = simpleDateFormat.parse(arrivalDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.departureDate = simpleDateFormat.parse(departureDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+	public Reservation(int reservationId, int customerId, int roomId, String arrivalDate, String departureDate,
+			int totalNights, int totalGuests) {
+		super();
+		this.reservationId = reservationId;
+		this.customerId = customerId;
+		this.roomId = roomId;
+		this.totalNights = totalNights;
+		this.totalGuests = totalGuests;
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.arrivalDate = simpleDateFormat.parse(arrivalDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.departureDate = simpleDateFormat.parse(departureDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// getters and setters
@@ -104,16 +146,16 @@ public class Reservation {
 		this.roomId = roomId;
 	}
 
-	public double getTotalNights() {
-		return totalNights;
+	public int getTotalNights() {
+		return (int) totalNights;
 	}
 
 	public void setTotalNights(int totalNights) {
 		this.totalNights = totalNights;
 	}
 
-	public double getTotalGuests() {
-		return totalGuests;
+	public int getTotalGuests() {
+		return (int) totalGuests;
 	}
 
 	public void setTotalGuests(int totalGuests) {
@@ -140,22 +182,32 @@ public class Reservation {
 	
 
 	public String getArrivalDate() {
-		return arrivalDate;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return simpleDateFormat.format(this.arrivalDate);
 	}
 
-	public void setArrivalDate(String arrivalDate) {
+	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
 
 	public String getDepartureDate() {
-		return departureDate;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return simpleDateFormat.format(this.departureDate);
 	}
 
-	public void setDepartureDate(String departureDate) {
+	public void setDepartureDate(Date departureDate) {
 		this.departureDate = departureDate;
 	}
 
 	public double calculateTotalAmount(double price) {
 		return price * Double.valueOf(this.totalNights);
+	}
+	
+	public Date getNonFormattedDepartureDate() {
+		return departureDate;
+	}
+	
+	public Date getNonFormattedArrivalDate() {
+		return arrivalDate;
 	}
 }

@@ -64,7 +64,7 @@
 										<div class="col-5 text-left label-bold"
 											style="margin-top: 5px;">Number of Nights:</div>
 										<div class="col-4 text-left">
-											<input type="number" name="numberOfNights"
+											<input type="number" value="2" name="numberOfNights"
 												class="form-control" required/>
 										</div>
 									</div>
