@@ -1,8 +1,13 @@
 package com.spring.jpa;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -86,9 +91,26 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/deleteReservation", method = RequestMethod.POST)
-	public String deleteReservation(@RequestParam("id") int id) {
-		System.out.println(id);
-		reservationRepository.deleteById(id);
+	public String deleteReservation(@RequestParam("id") int id) throws ParseException {
+		Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+		if (optionalReservation.isPresent()) {
+			Reservation reservation = optionalReservation.get();
+			Date todayDate = new Date();
+			Date arrivalDate = reservation.getNonFormattedArrivalDate();
+			long difference = arrivalDate.getTime() - todayDate.getTime();
+			long daysDifference = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
+			System.out.println(daysDifference);
+			
+			// checking if the user is deleting the reservation more than 2 days before the 
+			// arrival date
+			if (daysDifference > 2) {
+				reservationRepository.deleteById(id);
+				return "redirect:/showReservations";
+			} else {
+				return "redirect:/showReservations";
+			}
+		}
+		
 		return "redirect:/showReservations";
 	}
 	
@@ -100,41 +122,32 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/editReservation", method = RequestMethod.POST)
-	public String editReservation(@RequestParam("id") int id, HttpServletRequest request, Model model) {
-		System.out.println(id);
+	public String updateReservation(HttpServletRequest request, Model model, @RequestParam("id") int id,
+			@RequestParam("arrivalDate") String arrivalDate, @RequestParam("roomId") int roomId,
+			@RequestParam("departureDate") String departureDate, @RequestParam("totalNights") int numberOfNights,
+			@RequestParam("totalGuests") int numberOfGuests) {
 		if (request.getSession().getAttribute("customerId") != null) {
-			Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-			if (optionalReservation.isPresent()) {
-				Reservation reservation = optionalReservation.get();
-				List<Hotel> rooms = hotelRepository.findAll();
-				model.addAttribute("rooms", rooms);
-				model.addAttribute("reservation", reservation);
-				return "edit_reservation_page";
-			} else {
+			int customerId = (int) request.getSession().getAttribute("customerId");
+			Optional<Hotel> optRoom = hotelRepository.findById(roomId);
+			if (optRoom.isPresent()) {
+				Hotel room = optRoom.get();
+				Reservation reservation = new Reservation(id, customerId, roomId, arrivalDate, departureDate,
+						numberOfNights, numberOfGuests);
+
+				// calculating total amount
+				double totalAmount = reservation.calculateTotalAmount(room.getPrice());
+				reservation.setTotalAmount(totalAmount);
+				System.out.println(totalAmount);
+
+				reservationRepository.save(reservation);
+				
 				return "redirect:/showReservations";
 			}
+			return "redirect:/showReservations";
 		}
-		
-		return "redirect:/";
-	}
-	
-	@RequestMapping(value = "/editReservation", method = RequestMethod.GET)
-	public String renderEditReservation(@RequestParam("id") int id, HttpServletRequest request, Model model) {
-		System.out.println(id);
-		if (request.getSession().getAttribute("customerId") != null) {
-			Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-			if (optionalReservation.isPresent()) {
-				Reservation reservation = optionalReservation.get();
-				List<Hotel> rooms = hotelRepository.findAll();
-				model.addAttribute("rooms", rooms);
-				model.addAttribute("reservation", reservation);
-				return "edit_reservation_page";
-			} else {
-				return "redirect:/showReservations";
-			}
-		}
-		
-		return "redirect:/";
+
+		model.addAttribute("error", "Please Sign in to book reservations");
+		return "redirect:/index";
 	}
 
 	// for handling errors regarding database update or save in reservation controller
