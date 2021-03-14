@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!--
+  Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+  Student Number: 301044883, 300987420
+  Submission date: 12th March 2021
+  -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,28 +26,30 @@
 </head>
 <body>
 	<div class="card-container">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Centennial Hotel</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="#">Features</a>
-      <a class="nav-item nav-link" href="#">Pricing</a>
-      <a class="nav-item nav-link disabled" href="#">Disabled</a>
-    </div>
-  </div>
-</nav>
+		<div class="row navbar-custom">
+			<div class="col-4" style="align-self: center;">
+				<h3><a href="/" style="color: black; text-decoration: none;">CENTENNIAL HOTEL</a></h3>
+			</div>
+			<div class="col-2 navbar-columns text-right">
+				<h5><a href="/searchRooms">Book Rooms</a></h5>
+			</div>
+			<div class="col-4 navbar-columns">
+				<h5><a href="/showReservations">View Your Booked Rooms</a></h5>
+			</div>
+			<div class="col-1 navbar-columns">
+				<a class="btn btn-danger" href="logout">Logout</a>
+			</div>
+    		<div class="col-1">
+			<a href="/profile"><img id="profile-icon" style="margin-top: 13px;"
+							src="/img/profileIcon.png"></a>
+			</div>
+		</div>
 		<c:if test="${error != null}">
 			<p class="alert alert-danger">${error}</p>
 		</c:if>
 		<div class="row justify-content-center row-padding">
 			<h1>Sign In</h1>
 		</div>
-		<p class="alert alert-danger" th:if="${error != null}"
-			th:text="${error}">${error}</p>
 		<form action="signIn" method="POST">
 			<div class="row row-padding">
 				<label for="email" class="col-3 col-form-label">Email:</label>

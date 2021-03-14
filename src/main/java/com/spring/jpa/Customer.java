@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 @Table(name="customer")
 public class Customer {
 
+	
 	@Id
 	@GeneratedValue
 	@Column(name="custid")

@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+	<!--
+  Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+  Student Number: 301044883, 300987420
+  Submission date: 12th March 2021
+  -->
+	
 <!DOCTYPE html>
 <html>
 <head>
