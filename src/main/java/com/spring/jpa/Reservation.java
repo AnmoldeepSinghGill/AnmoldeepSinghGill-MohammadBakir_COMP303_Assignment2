@@ -21,11 +21,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.data.annotation.Transient;
 
 /*
- * Submitted By: Anmoldeep Singh Gill
- * Student Number: 301044883
+ * Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+ * Student Number: 301044883, 300987420
+ * Submission date: 12th March 2021
  * */
 
-//Customer entity class - Model class
+//Reservation entity class - Model class
 @Entity
 @EnableAutoConfiguration
 @Table(name="reservation")
@@ -36,17 +37,9 @@ public class Reservation {
 	@Column(name="reservationid")
 	private int reservationId;
 	
-	// configuring the foreign keys for customer id
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "customer_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="customerid")
 	private int customerId;
 	
-	// configuring the foreign keys for room id
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "room_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
 	@Column(name="roomid")
 	private int roomId;
 	
@@ -80,6 +73,7 @@ public class Reservation {
 		this.totalNights = totalNights;
 		this.totalGuests = totalGuests;
 		
+		// parsing string the Date format for saving
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			this.arrivalDate = simpleDateFormat.parse(arrivalDate);
@@ -96,7 +90,7 @@ public class Reservation {
 	}
 	
 	
-
+	// constructor for update functionality
 	public Reservation(int reservationId, int customerId, int roomId, String arrivalDate, String departureDate,
 			int totalNights, int totalGuests) {
 		super();
@@ -180,7 +174,7 @@ public class Reservation {
 	}
 	
 	
-
+	// formatting date to yyyy-MM-dd from Date to show in html
 	public String getArrivalDate() {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return simpleDateFormat.format(this.arrivalDate);
@@ -199,6 +193,7 @@ public class Reservation {
 		this.departureDate = departureDate;
 	}
 
+	// calculates the total amount
 	public double calculateTotalAmount(double price) {
 		return price * Double.valueOf(this.totalNights);
 	}
@@ -207,6 +202,7 @@ public class Reservation {
 		return departureDate;
 	}
 	
+	// gets the no formatted Date object
 	public Date getNonFormattedArrivalDate() {
 		return arrivalDate;
 	}

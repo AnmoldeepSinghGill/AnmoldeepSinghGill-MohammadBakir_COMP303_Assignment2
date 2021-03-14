@@ -9,11 +9,12 @@ import javax.persistence.Table;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 /*
- * Submitted By: Anmoldeep Singh Gill
- * Student Number: 301044883
+ * Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+ * Student Number: 301044883, 300987420
+ * Submission date: 12th March 2021
  * */
 
-//Customer entity class - Model class
+//Hotel entity class - Model class
 @Entity
 @EnableAutoConfiguration
 @Table(name="hotel")
@@ -34,6 +35,7 @@ public class Hotel {
 		
 	}
 
+	// constructor
 	public Hotel(int roomId, String roomType, double price, String roomImage) {
 		super();
 		this.roomId = roomId;

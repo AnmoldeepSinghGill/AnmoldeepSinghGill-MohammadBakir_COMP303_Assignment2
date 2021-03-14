@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/*
+ * Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+ * Student Number: 301044883, 300987420
+ * Submission date: 12th March 2021
+ * */
+
+// hotel controler
 @Controller
 public class HotelController {
 
+	// hotel repository to get data from database
 	@Autowired
     private HotelRepository hotelRepository;
 	
+	// renders the search rooms views if a user is signed in
 	@RequestMapping(value="/searchRooms",method = RequestMethod.GET)  
 	public String renderSearchRooms(HttpServletRequest request, Model model)
 	{
@@ -28,6 +37,7 @@ public class HotelController {
 		return "redirect:/index";	
 	}
 	
+	// saves the arrival date and departure date in the session to be used in the future
 	@RequestMapping(value="/searchRooms",method = RequestMethod.POST)  
 	public String searchRooms(HttpServletRequest request, Model model, 
 			@RequestParam("arrivalDate") String arrivalDate,
@@ -46,6 +56,8 @@ public class HotelController {
 		return "redirect:/index";	
 	}
 	
+	// rendring the reservation view by populating the view with all the rooms in the system if the user is
+	// signed in
 	@RequestMapping(value="/reservation",method = RequestMethod.GET)  
 	public String signIn(HttpServletRequest request, Model model)
 	{

@@ -17,13 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+/*
+ * Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+ * Student Number: 301044883, 300987420
+ * Submission date: 12th March 2021
+ * */
+
 @Controller
 public class CustomerController {
 
 	@Autowired
     private CustomerRepository customerRepository;
 	
-	
+	// renders the index view
 	@RequestMapping("/index")
 	public String home(Model model)
 	{
@@ -31,6 +37,7 @@ public class CustomerController {
 		return "index";
 	}
 	
+	// renders the sign up view
 	@RequestMapping("/signUp")
 	public String signUp(Model model)
 	{
@@ -38,6 +45,7 @@ public class CustomerController {
 		return "sign_up_page";
 	}
 	
+	// gets the data from sign up view and saves the customer
 	@RequestMapping(value="/signUp",method = RequestMethod.POST)  
 	public String register(@RequestParam("email") String email,
             @RequestParam("password") String password,
@@ -58,28 +66,35 @@ public class CustomerController {
 		return "redirect:/";
 	}
 	
+	// method to handle sign in
 	@RequestMapping(value="/signIn",method = RequestMethod.POST)  
 	public String signIn(@RequestParam("email") String email,
-            @RequestParam("password") String password, HttpServletRequest request)
+            @RequestParam("password") String password, HttpServletRequest request, Model model)
 	{
 	    Customer customer = customerRepository.findByEmail(email);
 	   
+	    // checking if the customer exists
 	    if (customer != null) {
+	    	// checking if the password matches from the database
 	    	if (customer.getPassword().equals(password)) {
+	    		
+	    		// saving customer Id and email in the session
 	    		request.getSession().setAttribute("customerId", customer.getCustId());
 	    		request.getSession().setAttribute("customerEmail", customer.getEmail());
 	    	
 	    		return "redirect:/searchRooms";
 	    	} else {
-	    		handleSignInErrors("Incorrect Username/password");
+	    		model.addAttribute("error", "Incorrect Username/password");
+	    		return "index";
 	    	}
 	    } else {
-    		handleSignInErrors("Account does not exists.");
+    		model.addAttribute("error", "Account does not exists.");
+    		return "index";
 	    }
-	    
-		return "redirect:/";    
+	        
 	}
 	
+	// handles view profile for customer gets the data of a customer by id from session
 	@RequestMapping(value="/profile",method = RequestMethod.GET)  
 	public String viewProfile(HttpServletRequest request, Model model)
 	{
@@ -108,6 +123,7 @@ public class CustomerController {
 		return "redirect:/";   
 	}
 	
+	// handles the post route for saving customer details
 	@RequestMapping(value="/profile",method = RequestMethod.POST)  
 	public String updateProfile(HttpServletRequest request,
 			@RequestParam("firstName") String firstName,
@@ -147,10 +163,13 @@ public class CustomerController {
 		return signUp;
 	} 
 	
-	private ModelAndView handleSignInErrors(String error) {
-		ModelAndView signIn = new ModelAndView("index");
-		signIn.addObject("error", error);
-		System.out.println(error);
-		return signIn;
+	// mapping for logout GET route to clear the session and redirect to index
+	@RequestMapping(value="/logout",method = RequestMethod.GET)  
+	public String logout(HttpServletRequest request)
+	{
+		request.getSession().setAttribute("customerId", null);
+		request.getSession().setAttribute("customerEmail", null);
+		return "redirect:/index";
 	}
+	
 }

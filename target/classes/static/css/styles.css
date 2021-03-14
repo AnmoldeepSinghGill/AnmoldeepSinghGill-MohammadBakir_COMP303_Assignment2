@@ -1,3 +1,9 @@
+/*
+ * Submitted By: Anmoldeep Singh Gill, Mohammad Bakir
+ * Student Number: 301044883, 300987420
+ * Submission date: 12th March 2021
+ * */
+
 .card-container {
   border-radius: 5px;
   max-width: 1000px;
@@ -29,6 +35,16 @@
 
 .label-bold {
 	font-weight: bold;
+}
+
+.navbar-custom {
+	border: 1px solid #ccbdbd;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.navbar-columns {
+	 align-self: center;
 }
 
 .card {
